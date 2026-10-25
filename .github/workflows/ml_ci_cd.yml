@@ -31,10 +31,8 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Download dataset
-        run: wget -O data/heart_disease.csv ${{ github.event.client_payload.dataseturl }}
-
-      - name: cat dataset
-        run: cat data/heart_disease.csv
+        if: github.event_name == 'repository_dispatch'
+        run: wget -O data/heart-disease.csv "${{ github.event.client_payload.dataseturl }}"
 
       - name: train model
         run: python model/train.py
